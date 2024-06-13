@@ -9,7 +9,9 @@ from . import settings
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(title="Social Media Application", description="""
+    A social media app where users can sign up, create and manage posts, search and filter content, and vote on posts. It supports user authentication, real-time updates, and is built for security and scalability.
+    """, version="0.1")
 
 origins = ["*"]
 
