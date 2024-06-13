@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, validator, Field
 from datetime import datetime
 from typing import Optional
 from enum import Enum
@@ -45,7 +45,15 @@ class PostOut(BaseModel):
 
 class UserCreate(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length = 8)
+    
+    @validator('password')
+    def password_must_contain_uppercase_and_number(cls, value):
+        if not re.search(r'[A-Z]', value):
+            raise ValueError('password must contain at least one uppercase letter')
+        if not re.search(r'[0-9]', value):
+            raise ValueError('password must contain at least one number')
+        return value
 
 
 class UserLogin(BaseModel):
